@@ -10,12 +10,6 @@ describe('AuthorController', () =>
     let authorController: AuthorController;
     let authorService: AuthorService;
 
-    const mockResponse = {
-        send: (body?: any) => {},
-        status: (code: number) => mockResponse,
-        json: (obj: any) => obj
-    };
-
     const mockRepository = jest.fn(() => ({
         metadata: {
             columns: [],
@@ -68,8 +62,8 @@ describe('AuthorController', () =>
                 }
             ];
 
-            jest.spyOn(authorService, 'all').mockImplementation(() => new Promise((resolve, reject) => resolve(result)));
-            expect(await authorController.all(mockResponse)).toBe(result);
+            jest.spyOn(authorService, 'all').mockImplementation(() => new Promise(resolve => resolve(result)));
+            expect(await authorController.all()).toBe(result);
         });
     });
 });

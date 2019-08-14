@@ -11,63 +11,26 @@ export class AuthorController
     {}
 
     @Get()
-    all(@Res() response) 
+    all() 
     {
-        this.authorService
-            .all()
-            .then(authors => 
-            {
-                console.log(response.status().json('holaaa'));
-                response.status(HttpStatus.CREATED).json(authors);        
-            })
-            .catch(error => 
-            {
-                response.status(HttpStatus.FORBIDDEN).json({message: 'error get author', error});
-            });
+        return this.authorService.all();
     }
     
     @Post()
-    create(@Body() author: AuthorDto, @Res() response)
+    create(@Body() author: AuthorDto)
     {
-        this.authorService
-            .create(author)
-            .then(author => 
-            {
-                response.status(HttpStatus.CREATED).json(author);
-            })
-            .catch(error => 
-            {
-                response.status(HttpStatus.FORBIDDEN).json({message: 'error create author', error});
-            });
+        this.authorService.create(author)
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() author: AuthorDto, @Res() response) 
+    update(@Param('id') id: number, @Body() author: AuthorDto) 
     {
-        this.authorService
-            .update(id, author)
-            .then(author => 
-            {
-                response.status(HttpStatus.OK).json(author);
-            })
-            .catch(error => 
-            {
-                response.status(HttpStatus.FORBIDDEN).json({message: 'error update author', error});
-            });
+        this.authorService.update(id, author);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number, @Res() response)
+    delete(@Param('id') id: number)
     {
-        this.authorService
-            .delete(id)
-            .then(author => 
-            {
-                response.status(HttpStatus.OK).json(author);
-            })
-            .catch(error => 
-            {
-                response.status(HttpStatus.FORBIDDEN).json({message: 'error delete author', error});
-            });
+        this.authorService.delete(id);
     }
 }
