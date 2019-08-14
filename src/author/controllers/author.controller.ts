@@ -1,6 +1,6 @@
-import { Controller, Get, Res, Req, Post, Body, Put, Param, Delete, HttpStatus } from '@nestjs/common';
-import { AuthorDto } from './dto/author.dto';
-import { AuthorService } from './services/author.service';
+import { Controller, Get, Res, Post, Body, Put, Param, Delete, HttpStatus } from '@nestjs/common';
+import { AuthorDto } from '../dto/author.dto';
+import { AuthorService } from '../services/author.service';
 
 @Controller('author')
 export class AuthorController 
@@ -17,7 +17,8 @@ export class AuthorController
             .all()
             .then(authors => 
             {
-                response.status(HttpStatus.CREATED).json(authors);
+                console.log(response.status().json('holaaa'));
+                response.status(HttpStatus.CREATED).json(authors);        
             })
             .catch(error => 
             {
