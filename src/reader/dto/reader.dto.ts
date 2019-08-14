@@ -4,5 +4,5 @@ export class ReaderDto
 {
     id: number;
     name: string;
-    bookIds: number[]
+    books: BookDto[];
 }

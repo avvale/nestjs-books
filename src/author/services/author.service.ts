@@ -25,7 +25,7 @@ export class AuthorService
 
     async update(id: number, author: AuthorDto): Promise<Author>
     {
-        await this.authorRepository.update(id, author);
+        await this.authorRepository.update(id, author);   
         return await this.authorRepository.findOne(id);
     }
 

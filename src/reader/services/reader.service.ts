@@ -18,54 +18,54 @@ export class ReaderService
         return await this.readerRepository.find();
     }
 
-    async create(reader: ReaderDto): Promise<ReaderDto>
+    async create(reader: ReaderDto): Promise<Reader>
     {
         const res = await this.readerRepository.save(reader);
 
-        if (reader.bookIds)
+        if (reader.books)
         {
             this.readerRepository
                 .createQueryBuilder()
                 .relation(Reader, "books")
                 .of(res)
-                .add(reader.bookIds);
+                .add(reader.books);
         }
     
         return res;
     }
 
-    async update(id: number, reader: ReaderDto): Promise<ReaderDto>
+    async update(id: number, reader: ReaderDto): Promise<Reader>
     {
-        //await this.readerRepository.update(id, reader);
+        await this.readerRepository.update(id, reader);
 
-        /* const readerModel = await this.readerRepository.findOne(id);
+        const readerModel = await this.readerRepository.findOne(id);
         this.readerRepository
                 .createQueryBuilder()
                 .relation(Reader, "books")
                 .of(id)
-                .remove(readerModel.bookIds);
+                .remove(readerModel.books);
 
             
-        reader = this.readerRepository.merge(readerModel, reader);
+        // reader = this.readerRepository.merge(readerModel, reader);
 
         await this.readerRepository.update(id, reader);
 
 
         console.log(readerModel);
 
-        if (reader.bookIds)
+        if (reader.books)
         {
             this.readerRepository
                 .createQueryBuilder()
                 .relation(Reader, "books")
                 .of(id)
-                .add(reader.bookIds);
+                .add(reader.books);
         }
 
-        return await this.readerRepository.findOne(id); */
+        return await this.readerRepository.findOne(id);
     }
 
-    async delete(id: number): Promise<ReaderDto>
+    async delete(id: number): Promise<Reader>
     {
         const reader = this.readerRepository.findOne(id);
         this.readerRepository.delete(id);
