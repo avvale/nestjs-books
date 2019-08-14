@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Post, Body, Put, Param, Delete, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpCode } from '@nestjs/common';
 import { AuthorDto } from '../dto/author.dto';
 import { AuthorService } from '../services/author.service';
 
@@ -17,20 +17,21 @@ export class AuthorController
     }
     
     @Post()
+    @HttpCode(HttpStatus.CREATED)
     create(@Body() author: AuthorDto)
     {
-        this.authorService.create(author)
+        return this.authorService.create(author)
     }
 
     @Put(':id')
     update(@Param('id') id: number, @Body() author: AuthorDto) 
     {
-        this.authorService.update(id, author);
+        return this.authorService.update(id, author);
     }
 
     @Delete(':id')
     delete(@Param('id') id: number)
     {
-        this.authorService.delete(id);
+        return this.authorService.delete(id);
     }
 }
