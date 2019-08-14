@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpCode, HttpException } from '@nestjs/common';
 import { AuthorDto } from '../dto/author.dto';
 import { AuthorService } from '../services/author.service';
 
@@ -14,6 +14,12 @@ export class AuthorController
     all() 
     {
         return this.authorService.all();
+    }
+
+    @Get(':id')
+    find(@Param('id') id: number) 
+    {
+        return this.authorService.find(id);
     }
     
     @Post()
