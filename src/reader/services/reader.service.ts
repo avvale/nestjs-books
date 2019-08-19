@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ReaderDto } from './../dto/reader.dto';
@@ -20,18 +20,7 @@ export class ReaderService
 
     async create(reader: ReaderDto): Promise<Reader>
     {
-        const res = await this.readerRepository.save(reader);
-
-        if (reader.books)
-        {
-            this.readerRepository
-                .createQueryBuilder()
-                .relation(Reader, "books")
-                .of(res)
-                .add(reader.books);
-        }
-    
-        return res;
+        return await this.readerRepository.save(reader);
     }
 
     async update(id: number, reader: ReaderDto): Promise<Reader>
@@ -67,8 +56,11 @@ export class ReaderService
 
     async delete(id: number): Promise<Reader>
     {
-        const reader = this.readerRepository.findOne(id);
-        this.readerRepository.delete(id);
+        const reader = await this.readerRepository.findOne(id);
+
+        if(!reader) throw new HttpException('Not found reader with code: ' + id, HttpStatus.NOT_FOUND);
+        
+        await this.readerRepository.delete(id);
 
         return reader;
     }

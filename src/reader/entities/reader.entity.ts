@@ -10,9 +10,6 @@ export class Reader
     @Column()
     name: string;
 
-    /* @RelationId((reader: Reader) => reader.books)
-    bookIds: number[]; */
-
     @ManyToMany(type => Book, {
         eager: true
     })

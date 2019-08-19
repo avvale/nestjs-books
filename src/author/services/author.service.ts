@@ -39,8 +39,8 @@ export class AuthorService
 
     async delete(id: number): Promise<Author>
     {
-        const author = this.authorRepository.findOne(id);
-        this.authorRepository.delete(id);
+        const author = await this.authorRepository.findOne(id);
+        await this.authorRepository.delete(id);
 
         return author;
     }

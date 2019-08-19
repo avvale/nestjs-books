@@ -10,9 +10,6 @@ export class Book
     @Column()
     name: string;
 
-    @Column()
-    authorId: number;
-
     @ManyToOne(type => Author, author => author.books, {
         eager: true,
         onDelete: 'RESTRICT',
