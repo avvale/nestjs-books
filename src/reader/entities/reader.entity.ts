@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Generated, Column, ManyToMany, JoinTable, RelationId } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Generated, Column, ManyToMany, JoinTable, Index } from 'typeorm';
 import { Book } from './../../book/entities/book.entity';
 
 @Entity()
@@ -9,6 +9,7 @@ export class Reader
 
     @Column()
     @Generated('uuid')
+    @Index()
     uuid: string;
 
     @Column()
