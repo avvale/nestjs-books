@@ -15,6 +15,12 @@ export class ReaderController
     {
         return this.readerService.all();
     }
+
+    @Get(':id')
+    find(@Param('id') id: number) 
+    {
+        return this.readerService.find(id);
+    }
     
     @Post()
     @HttpCode(HttpStatus.CREATED)

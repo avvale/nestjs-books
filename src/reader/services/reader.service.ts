@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ReaderDto } from './../dto/reader.dto';
 import { Reader } from '../entities/reader.entity';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ReaderService 
@@ -18,6 +19,14 @@ export class ReaderService
         return await this.readerRepository.find();
     }
 
+    async find(id: number): Promise<Reader>
+    {
+        const response = await this.readerRepository.findOne(id);
+
+        if(response) return response;
+        throw new HttpException('Not found author with code: ' + id, HttpStatus.NOT_FOUND);
+    }
+
     async create(reader: ReaderDto): Promise<Reader>
     {
         return await this.readerRepository.save(reader);
@@ -25,30 +34,30 @@ export class ReaderService
 
     async update(id: number, reader: ReaderDto): Promise<Reader>
     {
-        await this.readerRepository.update(id, reader);
-
-        const readerModel = await this.readerRepository.findOne(id);
-        this.readerRepository
-                .createQueryBuilder()
-                .relation(Reader, "books")
-                .of(id)
-                .remove(readerModel.books);
-
-            
-        // reader = this.readerRepository.merge(readerModel, reader);
-
-        await this.readerRepository.update(id, reader);
-
-
-        console.log(readerModel);
+        await this.readerRepository.update(id, _.pick(reader, ReaderDto.manageable));
 
         if (reader.books)
         {
+            const readerModel = await this.readerRepository.findOne(id);
+
             this.readerRepository
                 .createQueryBuilder()
                 .relation(Reader, "books")
-                .of(id)
-                .add(reader.books);
+                .of(readerModel)
+                .addAndRemove(reader.books, readerModel.books);
+
+            /* this.readerRepository
+                .createQueryBuilder()
+                .relation(Reader, "books")
+                .of(readerModel)
+                .remove(readerModel.books);
+
+
+            this.readerRepository
+                .createQueryBuilder()
+                .relation(Reader, "books")
+                .of(readerModel)
+                .add(reader.books); */
         }
 
         return await this.readerRepository.findOne(id);
