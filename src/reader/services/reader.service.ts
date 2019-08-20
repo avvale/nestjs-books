@@ -40,24 +40,11 @@ export class ReaderService
         {
             const readerModel = await this.readerRepository.findOne(id);
 
-            this.readerRepository
+            await this.readerRepository
                 .createQueryBuilder()
                 .relation(Reader, "books")
                 .of(readerModel)
                 .addAndRemove(reader.books, readerModel.books);
-
-            /* this.readerRepository
-                .createQueryBuilder()
-                .relation(Reader, "books")
-                .of(readerModel)
-                .remove(readerModel.books);
-
-
-            this.readerRepository
-                .createQueryBuilder()
-                .relation(Reader, "books")
-                .of(readerModel)
-                .add(reader.books); */
         }
 
         return await this.readerRepository.findOne(id);

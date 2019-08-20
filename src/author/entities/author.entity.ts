@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Generated, Column, OneToMany } from 'typeorm';
 import { Book } from './../../book/entities/book.entity';
 
 @Entity()
@@ -6,6 +6,10 @@ export class Author
 {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column()
+    @Generated('uuid')
+    uuid: string;
 
     @Column()
     name: string;
