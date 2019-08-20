@@ -27,6 +27,6 @@ export class AuthorResolver
     async books(@Parent() author): Promise<Book[]>
     {
         const { id } = author;
-        return await this.bookService.all();
+        return await this.bookService.all({ where: { authorId: id } });
     }
 }

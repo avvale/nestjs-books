@@ -13,9 +13,9 @@ export class AuthorService
     ) 
     {}
 
-    async all(): Promise<Author[]>
+    async all(constraint?: object): Promise<Author[]>
     {
-        return await this.authorRepository.find();
+        return await this.authorRepository.find(constraint);
     }
 
     async find(id: number): Promise<Author>

@@ -15,6 +15,9 @@ export class Book
     @Column()
     name: string;
 
+    @Column()
+    authorId: string;
+
     @ManyToOne(type => Author, author => author.books, {
         eager: true,
         onDelete: 'RESTRICT',

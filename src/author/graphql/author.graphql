@@ -5,13 +5,6 @@ type Author {
     books: [Book]
 }
 
-type Book {
-    id: Int!
-    uuid: String!
-    name: String!
-    author: Author
-}
-
 type Query {
     author(id: Int!): Author
     authors: [Author]

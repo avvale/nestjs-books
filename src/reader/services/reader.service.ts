@@ -14,9 +14,9 @@ export class ReaderService
     ) 
     {}
 
-    async all(): Promise<Reader[]>
+    async all(constraint?: object): Promise<Reader[]>
     {
-        return await this.readerRepository.find();
+        return await this.readerRepository.find(constraint);
     }
 
     async find(id: number): Promise<Reader>

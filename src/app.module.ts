@@ -11,7 +11,10 @@ import { BookService } from './book/services/book.service';
 import { ReaderController } from './reader/controllers/reader.controller';
 import { ReaderService } from './reader/services/reader.service';
 import { Reader } from './reader/entities/reader.entity';
+
+// graphql
 import { AuthorResolver } from './author/graphql/author.resolver';
+import { BookResolver } from './book/graphql/book.resolver';
 
 @Module({
     imports: [
@@ -39,7 +42,10 @@ import { AuthorResolver } from './author/graphql/author.resolver';
         AuthorService, 
         BookService, 
         ReaderService,
-        AuthorResolver
+
+        // resolvers
+        AuthorResolver,
+        BookResolver
     ],
 })
 export class AppModule { }

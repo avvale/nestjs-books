@@ -22,4 +22,6 @@ export interface Book {
 export interface IQuery {
     author(id: number): Author | Promise<Author>;
     authors(): Author[] | Promise<Author[]>;
+    book(id: number): Book | Promise<Book>;
+    books(): Book[] | Promise<Book[]>;
 }

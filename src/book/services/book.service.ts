@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BookDto } from './../dto/book.dto';
@@ -13,9 +13,17 @@ export class BookService
     ) 
     {}
 
-    async all(): Promise<Book[]>
+    async all(constraint?: object): Promise<Book[]>
     {
-        return await this.bookRepository.find();
+        return await this.bookRepository.find(constraint);
+    }
+
+    async find(id: number): Promise<Book>
+    {
+        const response = await this.bookRepository.findOne(id);
+
+        if(response) return response;
+        throw new HttpException('Not found book with code: ' + id, HttpStatus.NOT_FOUND);
     }
 
     async create(library: BookDto): Promise<BookDto>
