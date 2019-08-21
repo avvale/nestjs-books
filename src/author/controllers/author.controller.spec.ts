@@ -52,11 +52,13 @@ describe('AuthorController', () =>
             const result = [
                 {
                     id: 1,
+                    uuid: '506cdab8-6542-4914-9337-d4a3b15924c2',
                     name: 'Anderson, Perry',
                     books: []
                 },
                 {
                     id: 2,
+                    uuid: 'fd2ee82e-bf29-42cc-8202-aee59ef7972d',
                     name: 'Abraham, Tomás',
                     books: []
                 }

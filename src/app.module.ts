@@ -26,7 +26,16 @@ import { BookResolver } from './book/graphql/book.resolver';
                 path: join(process.cwd(), 'src/graphql.ts')
             },
         }),
-        TypeOrmModule.forRoot(),
+        TypeOrmModule.forRoot({
+            "type": "mysql",
+            "host": "localhost",
+            "port": 33001,
+            "username": "root",
+            "password": "123456",
+            "database": "book_local",
+            "entities": [__dirname + '/**/*.entity{.ts,.js}'],
+            "synchronize": true
+        }),
         TypeOrmModule.forFeature([
             Author, 
             Book, 
@@ -48,4 +57,4 @@ import { BookResolver } from './book/graphql/book.resolver';
         BookResolver
     ],
 })
-export class AppModule { }
+export class AppModule {}

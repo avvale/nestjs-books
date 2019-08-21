@@ -1,12 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
-import { BookService } from './../../src/book/services/book.service';
+import { AuthorService } from './../../src/author/services/author.service';
 import * as request from 'supertest';
 
-describe('Book', () => 
+describe('Author', () => 
 {
-    const bookService = { all: () => ['test'] };
+    const authorService = { all: () => ['test'] };
 
     let app: INestApplication;
 
@@ -15,20 +15,20 @@ describe('Book', () =>
         const module = await Test.createTestingModule({
                 imports: [AppModule],
             })
-            .overrideProvider(BookService)
-            .useValue(bookService)
+            .overrideProvider(AuthorService)
+            .useValue(authorService)
             .compile();
 
         app = module.createNestApplication();
         await app.init();
     });
 
-    it(`/GET book`, () => 
+    it(`/GET author`, () => 
     {
         return request(app.getHttpServer())
-            .get('/book')
+            .get('/author')
             .expect(200)
-            .expect(bookService.all());
+            .expect(authorService.all());
     });
 
     afterAll(async () => 
