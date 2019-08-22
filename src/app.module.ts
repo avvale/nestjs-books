@@ -1,3 +1,4 @@
+import { ConfigModule } from './config/config.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -15,9 +16,11 @@ import { Reader } from './reader/entities/reader.entity';
 // graphql
 import { AuthorResolver } from './author/graphql/author.resolver';
 import { BookResolver } from './book/graphql/book.resolver';
+import { ConfigService } from './config/config.service';
 
 @Module({
     imports: [
+        ConfigModule,
         GraphQLModule.forRoot({
             debug: true,
             playground: true,
@@ -26,15 +29,19 @@ import { BookResolver } from './book/graphql/book.resolver';
                 path: join(process.cwd(), 'src/graphql.ts')
             },
         }),
-        TypeOrmModule.forRoot({
-            "type": "mysql",
-            "host": "localhost",
-            "port": 33001,
-            "username": "root",
-            "password": "123456",
-            "database": "book_local",
-            "entities": [__dirname + '/**/*.entity{.ts,.js}'],
-            "synchronize": true
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: async (config: ConfigService) => ({
+                "type": "mysql" as "mysql",
+                "host": config.get('DATABASE_HOST'),
+                "port": <number><unknown>config.get('DATABASE_PORT'),
+                "username": config.get('DATABASE_USER'),
+                "password": config.get('DATABASE_PASSWORD'),
+                "database": config.get('DATABASE_SCHEMA'),
+                "entities": [__dirname + '/**/*.entity{.ts,.js}'],
+                "synchronize": true
+            }),
+            inject: [ConfigService]
         }),
         TypeOrmModule.forFeature([
             Author, 
@@ -48,6 +55,7 @@ import { BookResolver } from './book/graphql/book.resolver';
         ReaderController
     ],
     providers: [
+        ConfigModule,
         AuthorService, 
         BookService, 
         ReaderService,
