@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpCode } from '@nestjs/common';
 import { ReaderDto } from '../dto/reader.dto';
 import { ReaderService } from '../services/reader.service';
+import { ApiUseTags } from '@nestjs/swagger';
 
+@ApiUseTags('Reader')
 @Controller('reader')
 export class ReaderController 
 {
