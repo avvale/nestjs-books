@@ -1,5 +1,5 @@
 import { ConfigModule } from './config/config.module';
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
@@ -12,11 +12,16 @@ import { BookService } from './book/services/book.service';
 import { ReaderController } from './reader/controllers/reader.controller';
 import { ReaderService } from './reader/services/reader.service';
 import { Reader } from './reader/entities/reader.entity';
-
-// graphql
 import { AuthorResolver } from './author/graphql/author.resolver';
 import { BookResolver } from './book/graphql/book.resolver';
 import { ConfigService } from './config/config.service';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+
+// graphql
+
+// middleware
 
 @Module({
     imports: [
@@ -27,7 +32,7 @@ import { ConfigService } from './config/config.service';
             typePaths: ['./**/*.graphql'],
             definitions: {
                 path: join(process.cwd(), 'src/graphql.ts')
-            },
+            }
         }),
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
@@ -47,7 +52,9 @@ import { ConfigService } from './config/config.service';
             Author, 
             Book, 
             Reader
-        ])
+        ]),
+        AuthModule,
+        UserModule
     ],
     controllers: [
         AuthorController,
@@ -65,4 +72,13 @@ import { ConfigService } from './config/config.service';
         BookResolver
     ],
 })
-export class AppModule {}
+export class AppModule implements NestModule 
+{
+    // set middleware configuration
+    configure(consumer: MiddlewareConsumer) 
+    {
+        consumer
+          .apply(LoggerMiddleware)
+          .forRoutes('book');
+      }
+}
