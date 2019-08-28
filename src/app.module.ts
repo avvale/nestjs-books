@@ -18,6 +18,7 @@ import { ConfigService } from './config/config.service';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { LoginController } from './login/login.controller';
 
 // graphql
 
@@ -39,6 +40,9 @@ import { UserModule } from './user/user.module';
             useFactory: async (config: ConfigService) => ({
                 "type": "mysql" as "mysql",
                 "host": config.get('DATABASE_HOST'),
+                "extra": {
+                    "socketPath": config.get('DATABASE_PORT')
+                },
                 "port": <number><unknown>config.get('DATABASE_PORT'),
                 "username": config.get('DATABASE_USER'),
                 "password": config.get('DATABASE_PASSWORD'),
@@ -59,7 +63,8 @@ import { UserModule } from './user/user.module';
     controllers: [
         AuthorController,
         BookController,
-        ReaderController
+        ReaderController,
+        LoginController
     ],
     providers: [
         ConfigModule,
