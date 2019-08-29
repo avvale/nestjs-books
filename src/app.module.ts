@@ -41,7 +41,7 @@ import { LoginController } from './login/login.controller';
                 "type": "mysql" as "mysql",
                 "host": config.get('DATABASE_HOST'),
                 "extra": {
-                    "socketPath": config.get('DATABASE_PORT')
+                    "socketPath": config.get('DATABASE_SOCKET')
                 },
                 "port": <number><unknown>config.get('DATABASE_PORT'),
                 "username": config.get('DATABASE_USER'),
