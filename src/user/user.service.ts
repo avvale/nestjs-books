@@ -6,7 +6,8 @@ export type User = any;
 export class UserService {
     private readonly users: User[];
 
-    constructor() {
+    constructor() 
+    {
         this.users = [
             {
                 userId: 1,
