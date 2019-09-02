@@ -1,6 +1,6 @@
 import { Controller, Request, UseGuards, Post, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('login')
 export class LoginController 
@@ -20,5 +20,5 @@ export class LoginController
     @Get('me')
     getProfile(@Request() req) {
         return req.user;
-  }
+    }
 }

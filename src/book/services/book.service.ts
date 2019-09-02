@@ -10,8 +10,7 @@ export class BookService
     constructor(
         @InjectRepository(Book)
         private readonly bookRepository: Repository<Book>
-    ) 
-    {}
+    ) {}
 
     async all(constraint?: object): Promise<Book[]>
     {

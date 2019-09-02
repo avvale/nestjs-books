@@ -16,9 +16,7 @@ import { AuthorResolver } from './author/graphql/author.resolver';
 import { BookResolver } from './book/graphql/book.resolver';
 import { ConfigService } from './config/config.service';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { LoginController } from './login/login.controller';
+import { AdminModule } from './hades-admin/admin.module';
 
 // graphql
 
@@ -57,14 +55,12 @@ import { LoginController } from './login/login.controller';
             Book, 
             Reader
         ]),
-        AuthModule,
-        UserModule
+        AdminModule
     ],
     controllers: [
         AuthorController,
         BookController,
-        ReaderController,
-        LoginController
+        ReaderController
     ],
     providers: [
         ConfigModule,
